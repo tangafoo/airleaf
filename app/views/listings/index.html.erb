@@ -1,0 +1,10 @@
+<ul>
+  <li><img src="http://bit.ly/2wsjHG9"/></li>
+<% if signed_in? %>
+  <li><%=link_to "Profile", user_path%></li>
+  <li><%=link_to "Make Listing", new_listing_path%>
+<%else%>
+  <li><%=link_to "Sign in", sign_in_path%></li>
+  <li><%=link_to "Sign up", sign_up_path%></li>
+<%end%>
+</ul>
