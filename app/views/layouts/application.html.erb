@@ -11,12 +11,12 @@
     <ul class="header">
       <li id="logo"><a href="/"><img style="height:30px" src="http://bit.ly/2wGWSxP"/></a></li>
       <%if signed_in?%>
-      <li><%=link_to "Profile", user_path(current_user.id)%></li>
-      <li><%=link_to "Make Listing", new_user_listing_path(current_user.id)%>
-      <li><%=link_to "Sign out", sign_out_path, method: :delete%></li>
+      <li class="header-button"><%=link_to "Profile", user_path(current_user.id)%></li>
+      <li class="header-button"><%=link_to "Make Listing", new_user_listing_path(current_user.id)%>
+      <li class="header-button"><%=link_to "Sign out", sign_out_path, method: :delete%></li>
       <%else%>
-      <li><%=link_to "Sign in", sign_in_path%></li>
-      <li><%=link_to "Sign up", sign_up_path%></li>
+      <li class="header-button"><%=link_to "Sign in", sign_in_path%></li>
+      <li class="header-button"><%=link_to "Sign up", sign_up_path%></li>
       <%end%>
     </ul>
     <%= yield %>

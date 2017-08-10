@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809063847) do
+ActiveRecord::Schema.define(version: 20170810080503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "listing_tags", force: :cascade do |t|
+    t.string "query"
+    t.bigint "tag_id"
+    t.bigint "listing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_listing_tags_on_listing_id"
+    t.index ["tag_id"], name: "index_listing_tags_on_tag_id"
+  end
 
   create_table "listings", force: :cascade do |t|
     t.string "title"
@@ -23,6 +33,15 @@ ActiveRecord::Schema.define(version: 20170809063847) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.text "tag", default: [], array: true
+    t.text "tag_text", default: [], array: true
+    t.bigint "listing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_tags_on_listing_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -38,5 +57,8 @@ ActiveRecord::Schema.define(version: 20170809063847) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
+  add_foreign_key "listing_tags", "listings"
+  add_foreign_key "listing_tags", "tags"
   add_foreign_key "listings", "users"
+  add_foreign_key "tags", "listings"
 end

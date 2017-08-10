@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   end
 
   resources :users do
-    resources :listings
+    resources :listings do
+      resource :tags
+    end
   end
 
   get 'user#url_after_create' => "listings#index"

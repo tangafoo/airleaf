@@ -7,11 +7,16 @@ class ListingsController < ApplicationController
 
   def new
     @listing = Listing.new
+    @tag = @listing.tags.new
   end
 
   def create
     @listing = current_user.listings.new(listing_params)
     if @listing.save
+      @listing.tags.create do |t|
+        t.tag += params[:tag][:tag] || []
+        t.tag += create_tags(params[:tag][:tag_text] || [])
+      end
       redirect_to '/'
     else
       render 'new'
@@ -21,6 +26,7 @@ class ListingsController < ApplicationController
   def show
     @user = User.find(params[:user_id])
     @listing = Listing.find(params[:id])
+    @tag = Tag.find_by(listing_id: params[:id])
   end
 
   def edit
@@ -46,5 +52,15 @@ class ListingsController < ApplicationController
   private
   def listing_params
     params.require(:listing).permit(:title, :description, :price)
+  end
+
+  def create_tags(text)
+    text.map! do |i|
+      i.gsub(/\s+/,"")
+    end
+  end
+
+  def make_tag_unique(exist, new_input)
+    exist - new_input
   end
 end
