@@ -1,0 +1,33 @@
+<div id="clearance" class="sign-up">
+    <%= form_for @user do |f|%>
+
+    <div class="text-field">
+      <%=f.label :name%>
+      <%=f.text_field :name%>
+    </div>
+
+    <div class="text-field">
+      <%=f.label :country%>
+      <%=f.text_field :country%>
+    </div>
+
+    <div class="text-field">
+      <%=f.label :email%>
+      <%=f.text_field :email%>
+    </div>
+
+    <div class="password-field">
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
+
+    <div class="submit-field">
+      <%=f.submit%>
+    </div>
+
+    <div class="other-links">
+      <%= link_to t(".sign_in"), sign_in_path %>
+    </div>
+
+<%end%>
+</div>

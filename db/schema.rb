@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 20170809063847) do
   enable_extension "plpgsql"
 
   create_table "listings", force: :cascade do |t|
-    t.string "listing_title"
-    t.text "listing_description"
+    t.string "title"
+    t.text "description"
     t.integer "price"
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20170809063847) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", null: false
