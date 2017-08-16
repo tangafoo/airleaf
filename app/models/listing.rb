@@ -6,6 +6,19 @@ class Listing < ApplicationRecord
   validates :description, presence: true, uniqueness: true
   validates :price, presence: true
 
+      def self.search(search)
+        @listing = Array.new
+        @tag_finder = Tag.find_by('tag ILIKE ?', '%' + search + '%')
+        if @tag_finder.nil?
+        else
+          @listingtag_finder = ListingTag.where(tag_id: @tag_finder.id)
+          @listingtag_finder.each do |index|
+          @listing << Listing.find_by(id: index.listing_id)
+          end
+        end
+        return @listing
+      end
+
       def tag_array
         @array = Array.new
         @read = ListingTag.where(listing_id: self.id)

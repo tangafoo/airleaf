@@ -1,12 +1,20 @@
 class TagsController < ApplicationController
-  def edit
-    @def_tag_id = Array.new
+  def index
     @listing = Listing.find(params[:listing_id])
-    @tag_text = @listing.listing_tags
-    default_tags.each do |def_tag|
-      index = Tag.find_or_create_by(tag: def_tag)
-      @def_tag_id << index.id
-    end
+  end
+
+  def edit
+    @tag_edit = Tag.find(params[:tag_id])
+  end
+
+  def update
+  end
+
+  def destroy
+    @listing = Listing.find(params[:id])
+    @tag_delete = @listing.listing_tags.find_by(tag_id: params[:tag_id])
+    @tag_delete.destroy
+    redirect_to '/'
   end
 
   private

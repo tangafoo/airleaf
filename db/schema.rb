@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 20170810080503) do
   enable_extension "plpgsql"
 
   create_table "listing_tags", force: :cascade do |t|
-    t.string "query"
     t.bigint "tag_id"
     t.bigint "listing_id"
     t.datetime "created_at", null: false

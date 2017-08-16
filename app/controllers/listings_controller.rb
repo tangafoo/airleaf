@@ -1,6 +1,9 @@
 class ListingsController < ApplicationController
   def index
     @listing = Listing.all
+    if params[:search]
+      @listing = Listing.search(params[:search])
+    end
   end
 
   before_action :require_login
@@ -38,8 +41,8 @@ class ListingsController < ApplicationController
 
   def destroy
     @listing = Listing.find(params[:id])
-      @listing.destroy
-      redirect_to '/'
+    @listing.destroy
+    redirect_to '/'
   end
 
   private

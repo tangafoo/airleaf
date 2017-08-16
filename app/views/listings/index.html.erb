@@ -8,6 +8,9 @@
     <td><strong><%=l.title%></strong></td>
     <td><%=l.description%></td>
     <td>$<%=l.price%></td>
+    <td><%l.tags.limit(5).each do |tag_show|%>
+      <%="#{tag_show.tag} | "%>
+      <%end%>...</td>
     <td><%=link_to "Show", user_listing_path(l.user_id, l)%></td>
     <% if current_user.id == l.user_id %>
     <td><%=link_to "Edit", edit_user_listing_path(l.user_id, l)%></td>
