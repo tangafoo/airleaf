@@ -7,16 +7,11 @@ class ListingsController < ApplicationController
 
   def new
     @listing = Listing.new
-    @tag = @listing.tags.new
   end
 
   def create
     @listing = current_user.listings.new(listing_params)
     if @listing.save
-      @listing.tags.create do |t|
-        t.tag += params[:tag][:tag] || []
-        t.tag += create_tags(params[:tag][:tag_text] || [])
-      end
       redirect_to '/'
     else
       render 'new'
@@ -24,9 +19,7 @@ class ListingsController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:user_id])
     @listing = Listing.find(params[:id])
-    @tag = Tag.find_by(listing_id: params[:id])
   end
 
   def edit
@@ -35,9 +28,9 @@ class ListingsController < ApplicationController
 
   def update
     @listing = Listing.find(params[:id])
-
+    renew_checks(@listing)
     if @listing.update(listing_params)
-      redirect_to 'show'
+      redirect_to '/'
     else
       redirect_to 'edit'
     end
@@ -51,16 +44,22 @@ class ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:title, :description, :price)
+    params.require(:listing).permit(:title, :description, :price, :tag_text, tag_array: [])
   end
 
-  def create_tags(text)
-    text.map! do |i|
-      i.gsub(/\s+/,"")
+  def default_tags
+    @def_tags = ["Smoking", "Internet", "Parking", "Heating", "Pets", "Balcony"]
+  end
+
+  def renew_checks(list)
+    default_tags.each do |def_tag|
+      @tag_id = Tag.find_by(tag: def_tag)
+      @renew = list.listing_tags.find_by(tag_id: @tag_id.id)
+      if @renew.nil?
+      else
+      @renew.destroy
+      end
     end
   end
 
-  def make_tag_unique(exist, new_input)
-    exist - new_input
-  end
 end

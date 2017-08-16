@@ -1,0 +1,7 @@
+<%=@tag_text.each do |t|%>
+<%if @def_tag_id.include?(t.tag_id) %>
+<%else%>
+<% @tag_show = Tag.find(t.tag_id)%>
+<p><%= @tag_show.tag %><%=link_to 'Delete'%></p>
+<%end%>
+<%end%>

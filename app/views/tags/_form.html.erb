@@ -1,8 +1,0 @@
-<%= fields_for @tag do |f| %>
-
-  <%default_tags.each do |t|%>
-  <%=t%><%= f.check_box :tag, {multiple: true}, "#{t}", nil%><%end%>
-
-    <p>Extra Tags :<%=f.text_field :tag_text, {multiple: true}%></p>
-    <p style="font-size:14px">Seperate tags with commas ','</p>
-<%end%>

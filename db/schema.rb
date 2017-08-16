@@ -36,12 +36,9 @@ ActiveRecord::Schema.define(version: 20170810080503) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.text "tag", default: [], array: true
-    t.text "tag_text", default: [], array: true
-    t.bigint "listing_id"
+    t.text "tag"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["listing_id"], name: "index_tags_on_listing_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -60,5 +57,4 @@ ActiveRecord::Schema.define(version: 20170810080503) do
   add_foreign_key "listing_tags", "listings"
   add_foreign_key "listing_tags", "tags"
   add_foreign_key "listings", "users"
-  add_foreign_key "tags", "listings"
 end

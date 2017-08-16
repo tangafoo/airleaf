@@ -14,7 +14,12 @@
   <%=f.text_field :price, :required => true%>
 </p>
 
-<%=render 'tags/form'%>
+  <%default_tags.each do |t|%>
+  <%=t%><%= f.check_box :tag_array, {multiple: true}, "#{t}", nil%>
+  <%end%>
+
+  <p>Extra Tags :<%=f.text_field :tag_text%></p>
+  <p style="font-size:14px">Seperate tags with commas ','</p>
 
 <p>
   <%=f.submit%>

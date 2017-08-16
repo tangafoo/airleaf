@@ -1,4 +1,4 @@
 class Tag < ApplicationRecord
-  belongs_to :listing
-  validates :tag, uniqueness: true
+  has_many :listing
+  
 end

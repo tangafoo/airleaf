@@ -1,8 +1,8 @@
 <h1><%=@listing.title%></h1>
 <h3><%=@listing.description%></h3>
 <h3>$<%=@listing.price%></h3>
-<% if @tag.nil? %>
-<%else%>
-<ul class="tag"><li class="tag-text"><%=@tag.tag.join(", ")%></li></ul>
+<% unless @listing.tags.empty? %>
+<%@listing.tags.each do |i|%>
+<ul><li><%=i.tag%></li></ul><%end%>
 <%end%>
 <%= link_to 'Back', '/'%>
