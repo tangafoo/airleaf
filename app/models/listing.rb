@@ -5,16 +5,16 @@ class Listing < ApplicationRecord
   validates :title, presence: true, uniqueness: true
   validates :description, presence: true, uniqueness: true
   validates :price, presence: true
+  has_many :bookings, dependent: :destroy
+  mount_uploader :listing_picture, ListingPictureUploader
+  mount_uploaders :gallery, GalleryUploader
+
 
       def self.search(search)
-        @listing = Array.new
-        @tag_finder = Tag.find_by('tag ILIKE ?', '%' + search + '%')
+        @tag_finder = Tag.where('tag ILIKE ?', '%' + search + '%')
         if @tag_finder.nil?
         else
-          @listingtag_finder = ListingTag.where(tag_id: @tag_finder.id)
-          @listingtag_finder.each do |index|
-          @listing << Listing.find_by(id: index.listing_id)
-          end
+        @listing = Listing.joins(:listing_tags).where('tag_id IN (?)', @tag_finder.ids)
         end
         return @listing
       end

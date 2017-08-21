@@ -1,8 +1,10 @@
 class ListingsController < ApplicationController
+
   def index
-    @listing = Listing.all
+    @listing = Listing.all.paginate(:page => params[:page], :per_page => 20).order("created_at ASC")
     if params[:search]
-      @listing = Listing.search(params[:search])
+      @listing_ids = Listing.search(params[:search]).uniq
+      @listing = Listing.where(id: @listing_ids.map(&:id)).paginate(:page => params[:page], :per_page => 20).order("created_at ASC")
     end
   end
 
@@ -23,6 +25,20 @@ class ListingsController < ApplicationController
 
   def show
     @listing = Listing.find(params[:id])
+    @booking = @listing.bookings.new
+    @dates = Booking.joins(:listing).where(listing_id: @listing.id)
+    @bookings = Array.new
+    @dates.each do |start_end|
+      @bookings << start_end.start_date
+      @bookings << start_end.end_date
+    end
+    @bookings = @bookings.first
+  end
+
+  def verify
+    @listing = Listing.find(params[:listing_id])
+    @listing.update(verification: true)
+    redirect_to 'show'
   end
 
   def edit
@@ -47,11 +63,7 @@ class ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:title, :description, :price, :tag_text, tag_array: [])
-  end
-
-  def default_tags
-    @def_tags = ["Smoking", "Internet", "Parking", "Heating", "Pets", "Balcony"]
+    params.require(:listing).permit(:title, :description, :price, :tag_text, :listing_picture, :remote_image_url, gallery: [], tag_array: [])
   end
 
   def renew_checks(list)

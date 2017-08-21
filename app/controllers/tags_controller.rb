@@ -17,9 +17,4 @@ class TagsController < ApplicationController
     redirect_to '/'
   end
 
-  private
-  def default_tags
-    @def_tags = ["Smoking", "Internet", "Parking", "Heating", "Pets", "Balcony"]
-  end
-
 end

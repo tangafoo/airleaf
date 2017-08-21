@@ -1,3 +1,9 @@
+/*
+ *= require bootstrap-datetimepicker
+ *= require_tree .
+ *= require_self
+ */
+
 .header {
   list-style-type: none;
   margin: 0;

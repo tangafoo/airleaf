@@ -21,6 +21,16 @@
       <%= f.password_field :password %>
     </div>
 
+    <div class="file-field">
+      <%=f.label :avatar%>
+      <%=f.file_field :avatar%>
+    </div>
+
+    <p>
+      <%=f.label :remote_avatar_url, "or Image URL"%>
+      <%=f.text_field :remote_avatar_url%>
+    </p>
+
     <div class="submit-field">
       <%=f.submit%>
     </div>
