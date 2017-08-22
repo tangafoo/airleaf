@@ -1,4 +1,65 @@
-<h1><%=@listing.title%></h1>
+
+<h1><%=@listing.title%><%if @listing.verification == true%>
+  <img style="height:32px" src='http://bit.ly/2vfZsJS'/><%end%></h1>
 <h3><%=@listing.description%></h3>
 <h3>$<%=@listing.price%></h3>
+<%for i in 0..@listing.gallery.length - 1%>
+<%=image_tag @listing.gallery[i].thumb.url if @listing.gallery?%>
+<%end%>
+<%if current_user.moderator?%>
+<%=link_to 'Verify Listing', listing_verify_path(@listing.id), method: :post%>
+<%end%>
+<% unless @listing.tags.empty? %>
+<%@listing.tags.each do |i|%>
+<ul><li><%=i.tag%></li></ul><%end%>
+<%end%>
+
+<%=form_for @booking, url: create_booking_path(@listing.id) do |f|%>
+<div class="container">
+    <div class='col-md-5'>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker6'>
+              Check In :
+                <%= f.text_field :start_date, class: 'form-control' %>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-5'>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker7'>
+              Check Out :
+                <%= f.text_field :end_date, class: "form-control" %>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<p hidden id="booking_dates"><%= @bookings %></p>
+Guests : <%=f.number_field :guests, min: 1, max: 10 %>
+<script type="text/javascript">
+    $(function () {
+      var booking_disabled = $("#booking_dates")[0].innerHTML;
+        $('#datetimepicker6').datetimepicker({
+          format: 'MM/DD/YYYY',
+          minDate:new Date()
+      });
+        $('#datetimepicker7').datetimepicker({
+            useCurrent: false, //Important! See issue #1075
+            format: 'MM/DD/YYYY'
+        });
+        $("#datetimepicker6").on("dp.change", function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change", function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
+<%=f.submit%>
+<%end%>
 <%= link_to 'Back', '/'%>

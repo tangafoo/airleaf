@@ -2,6 +2,16 @@
 <html>
   <head>
     <title>Airleaf</title>
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+    crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -11,12 +21,18 @@
     <ul class="header">
       <li id="logo"><a href="/"><img style="height:30px" src="http://bit.ly/2wGWSxP"/></a></li>
       <%if signed_in?%>
-      <li><%=link_to "Profile", user_path(current_user.id)%></li>
-      <li><%=link_to "Make Listing", new_user_listing_path(current_user.id)%>
-      <li><%=link_to "Sign out", sign_out_path, method: :delete%></li>
+      <li class="header-button"><%=link_to "Profile", user_path(current_user.id)%></li>
+      <li class="header-button"><%=link_to "Make Listing", new_user_listing_path(current_user.id)%>
+      <li class="header-button"><%=link_to "Sign out", sign_out_path, method: :delete%></li>
+      <li class="header-button">
+      <%=form_tag user_listings_path(current_user.id), method: :get do%>
+      <%=text_field_tag :search, params[:search], placeholder: "Search Tags"%>
+      <%=submit_tag "Search", name: nil%>
+      <%end%></li>
+      <li class="header-button-avatar"><%=image_tag(current_user.avatar.url)%></li>
       <%else%>
-      <li><%=link_to "Sign in", sign_in_path%></li>
-      <li><%=link_to "Sign up", sign_up_path%></li>
+      <li class="header-button"><%=link_to "Sign in", sign_in_path%></li>
+      <li class="header-button"><%=link_to "Sign up", sign_up_path%></li>
       <%end%>
     </ul>
     <%= yield %>

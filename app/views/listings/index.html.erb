@@ -1,13 +1,18 @@
 <table>
   <thead><tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Price</th>
+    <th><h2>Title</h2></th>
+    <th><h2>Description</h2></th>
+    <th><h2>Price</h2></th>
   </tr></thead>
   <tbody><tr><%@listing.each do |l|%>
-    <td><strong><%=l.title%></strong></td>
+    <td><%=image_tag l.listing_picture.thumb.url if l.listing_picture?%></td>
+    <td><strong><%=l.title%><%if l.verification == true%>
+      <img style="height:25px" src='http://bit.ly/2vfZsJS'/><%end%></strong></td>
     <td><%=l.description%></td>
     <td>$<%=l.price%></td>
+    <td><%l.tags.limit(5).each do |tag_show|%>
+      <%="#{tag_show.tag} | "%>
+      <%end%>...</td>
     <td><%=link_to "Show", user_listing_path(l.user_id, l)%></td>
     <% if current_user.id == l.user_id %>
     <td><%=link_to "Edit", edit_user_listing_path(l.user_id, l)%></td>
@@ -15,3 +20,5 @@
     <%end%>
   </tr><%end%></tbody>
 </table>
+
+<%= will_paginate @listing %>

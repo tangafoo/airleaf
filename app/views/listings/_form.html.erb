@@ -1,18 +1,39 @@
 <%=form_for ([current_user, @listing]) do |f|%>
 <p>
   <%=f.label :title%>
-  <%=f.text_field :title%>
+  <%=f.text_field :title, :required => true%>
 </p>
 
 <p>
   <%=f.label :description%>
-  <%=f.text_area :description%>
+  <%=f.text_area :description, :required => true%>
 </p>
 
 <p>
   <%=f.label :price %>
-  <%=f.text_field :price%>
+  <%=f.text_field :price, :required => true%>
 </p>
+
+<p>
+  <%=f.label :listing_picture%>
+  <%=f.file_field :listing_picture%>
+</p>
+<p>
+  <%=f.label :remote_listing_picture_url, "or Image URL"%>
+  <%=f.text_field :remote_listing_picture_url%>
+</p>
+
+<p>
+  <%=f.label :gallery%>
+  <%=f.file_field :gallery, {multiple: true}%>
+</p>
+
+  <%default_tags.each do |t|%>
+  <%=t%><%= f.check_box :tag_array, {multiple: true}, "#{t}", nil%>
+  <%end%>
+
+  <p>Extra Tags :<%=f.text_field :tag_text%></p>
+  <p style="font-size:14px">Seperate tags with commas ','</p>
 
 <p>
   <%=f.submit%>

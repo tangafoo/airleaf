@@ -1,4 +1,10 @@
-ul {
+/*
+ *= require bootstrap-datetimepicker
+ *= require_tree .
+ *= require_self
+ */
+
+.header {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -7,7 +13,7 @@ ul {
   height: 55px;
 }
 
-li {
+.header-button {
   float: right;
 }
 
@@ -31,4 +37,14 @@ li a:hover{
 
 table {
   width: 100%;
+}
+
+.tags {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tag-text{
+  display: inline;
 }
