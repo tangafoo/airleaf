@@ -6,8 +6,13 @@ class BookingsController < ApplicationController
     @booking.user_id = current_user.id
     if check_dates(@booking) == true
       @booking.save
+      # 
+      # BookingJob.perform_later(current_user.name, @listing.user_id, @listing, @booking.id)
+      # BookingMailer.notification_email(current_user.name, @listing.user_id, @listing, @booking.id).deliver_later
+
       # BookingJob.perform_later(current_user.name, @listing.user_id, @listing, @booking.id)
       BookingMailer.notification_email(current_user.name, @listing.user_id, @listing, @booking.id).deliver_now
+
       redirect_to '/'
     else
       render 'listings/show'

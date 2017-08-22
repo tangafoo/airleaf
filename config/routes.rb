@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :bookings
   resources :tags
 
+  get "auth/:provider/callback" => "sessions#create_from_omniauth"
+
   get 'user#url_after_create' => "listings#index"
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
@@ -24,7 +26,8 @@ Rails.application.routes.draw do
 
   get "extra_tag/:listing_id" => 'tags#index', as: "extra_tag"
   delete "listing/:id/extra_tag/:tag_id" => 'tags#destroy', as: "delete_extra_tag"
-  get "extra_tag/:tag_id/edit" => 'tags#edit', as: "edit_extra_tag"
+  get "listing/:id/extra_tag/:tag_id" => 'tags#edit', as: "edit_extra_tag"
+  patch "listing/:id/extra_tag/:tag_id" => 'tags#update', as: "update_extra_tag"
 
   post "users/moderate" => 'users#moderator', as: "become_moderator"
   post "listing/:listing_id/verify" => 'listings#verify', as: "listing_verify"

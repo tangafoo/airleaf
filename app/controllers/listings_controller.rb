@@ -6,6 +6,12 @@ class ListingsController < ApplicationController
       @listing_ids = Listing.search(params[:search]).uniq
       @listing = Listing.where(id: @listing_ids.map(&:id)).paginate(:page => params[:page], :per_page => 20).order("created_at ASC")
     end
+    if params[:city_search]
+      @listing = Listing.city_search(params[:city_search]).paginate(:page => params[:page], :per_page => 20).order("created_at ASC")
+    end
+    if params[:search_date_uno] && params[:search_date_dos]
+      @listing = Listing.search_dates(params[:search_date_uno], params[:search_date_dos]).paginate(:page => params[:page], :per_page => 20).order("created_at ASC")
+    end
   end
 
   before_action :require_login
@@ -63,16 +69,20 @@ class ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:title, :description, :price, :tag_text, :listing_picture, :remote_image_url, gallery: [], tag_array: [])
+    params.require(:listing).permit(:title, :description, :price, :tag_text, :city, :listing_picture, :remote_listing_picture_url, gallery: [], tag_array: [])
+  end
+
+  def default_tags
+    @def_tags = ["Smoking", "Internet", "Parking", "Heating", "Pets", "Balcony"]
   end
 
   def renew_checks(list)
     default_tags.each do |def_tag|
-      @tag_id = Tag.find_by(tag: def_tag)
-      @renew = list.listing_tags.find_by(tag_id: @tag_id.id)
+      @renew = list.tags.find_by(tag: def_tag)
       if @renew.nil?
       else
-      @renew.destroy
+      @tag_delete = list.listing_tags.find_by(tag_id: @renew.id)
+      @tag_delete.destroy
       end
     end
   end

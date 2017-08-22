@@ -6,13 +6,15 @@
 <% if flash[:notice] %>
   <div class="notice"><%= flash[:notice] %></div>
 <% end %>
-<h1 class="user_show"><%=@user.name%></h1>
+<h1 class="user_show"><%=image_tag @user.avatar.thumb.url if @user.avatar?%><%=@user.name%></h1>
 <h1 class="user_show"><%=@user.country%></h1>
 <h1 class="user_show"><%=@user.email%></h1>
-<%=image_tag @user.avatar.thumb.url if @user.avatar?%>
-<h2>Listings : </h2>
 <%=link_to "Make Listing", new_user_listing_path(current_user.id)%>
 <%=link_to "Back", '/'%>
+<%unless current_user.moderator?%>
+<%= link_to 'Become a Moderator and Verify Listings!', become_moderator_path, method: :post%>
+<%end%>
+<h1>My Listings :</h1>
 <table>
   <%@listing.each do |l|%>
   <tr>
@@ -26,7 +28,30 @@
     <%end%>
   </tr>
   <%end%><br>
-  <%unless current_user.moderator?%>
-  <%= link_to 'Become a Moderator and Verify Listings!', become_moderator_path, method: :post%>
+</table>
+<h1>My Bookings :</h1>
+<table>
+  <%current_user.bookings.each do |b|%>
+  <tr>
+    <%@reservation = Listing.find(b.listing_id)%>
+    <td><%=@reservation.title%></td>
+    <td><%=b.start_date%></td>
+    <td><%=b.end_date%></td>
+    <td><%=b.guests%></td>
+  </tr>
+  <%end%>
+</table>
+<h1>My Booked Listings :</h1>
+<table>
+  <%@listing.each do |booked|%>
+  <tr>
+    <% @reserved = Booking.where(listing_id: booked.id).each do |r|%>
+    <td><%=User.find(r.user_id).name%></td>
+    <td><%=booked.title%></td>
+    <td><%=r.start_date%></td>
+    <td><%=r.end_date%></td>
+    <td><%=r.guests%></td>
+  </tr>
+  <%end%>
   <%end%>
 </table>
