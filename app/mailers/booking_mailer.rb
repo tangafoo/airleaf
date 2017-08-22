@@ -1,5 +1,8 @@
 class BookingMailer < ApplicationMailer
+<<<<<<< HEAD
   default from: 'chevaliertann@gmail.com'
+=======
+>>>>>>> master
 
   def notification_email(customer, host_id, listing, booking_id)
     @customer = customer
