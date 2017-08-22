@@ -1,0 +1,17 @@
+<table>
+  <thead><tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Price</th>
+  </tr></thead>
+  <tbody><tr><%@listing.each do |l|%>
+    <td><strong><%=l.title%></strong></td>
+    <td><%=l.description%></td>
+    <td>$<%=l.price%></td>
+    <td><%=link_to "Show", user_listing_path(l.user_id, l)%></td>
+    <% if current_user.id == l.user_id %>
+    <td><%=link_to "Edit", edit_user_listing_path(l.user_id, l)%></td>
+    <td><%=link_to "Delete", user_listing_path(l.user_id, l), method: :delete, data: { confirm: "Are you sure?"}%><%=@warn%></td>
+    <%end%>
+  </tr><%end%></tbody>
+</table>

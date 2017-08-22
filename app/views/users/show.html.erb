@@ -1,0 +1,26 @@
+<style>
+.user_show{
+  text-align: center;
+  font-family: cursive;
+}
+</style>
+<h1 class="user_show"><%=@user.name%></h1>
+<h1 class="user_show"><%=@user.country%></h1>
+<h1 class="user_show"><%=@user.email%></h1>
+<h2>Listings : </h2>
+<%=link_to "Make Listing", new_user_listing_path(current_user.id)%>
+<%=link_to "Back", '/'%>
+<table>
+  <%@listing.each do |l|%>
+  <tr>
+    <td><em><%=l.title%></em></td>
+    <td><%=l.description%></td>
+    <td>$<%=l.price%></td>
+    <td><%=link_to "Show", user_listing_path(l.user_id, l)%></td>
+    <% if current_user.id == l.user_id %>
+    <td><%=link_to "Edit", edit_user_listing_path(l.user_id, l)%></td>
+    <td><%=link_to "Delete", user_listing_path(l.user_id, l), method: :delete, data: { confirm: "Are you sure?"}%><%=@warn%></td>
+    <%end%>
+  </tr>
+  <%end%>
+</table>
