@@ -5,11 +5,15 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'sidekiq'
+gem 'omniauth'
+gem 'omniauth-facebook'
 gem 'mini_magick'
 gem 'rmagick'
 gem 'carrierwave'
 gem 'will_paginate'
 gem 'faker'
+gem 'figaro'
 gem 'momentjs-rails'
 gem 'bootstrap3-datetimepicker-rails'
 gem 'clearance'

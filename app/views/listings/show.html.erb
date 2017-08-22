@@ -1,6 +1,6 @@
-
 <h1><%=@listing.title%><%if @listing.verification == true%>
   <img style="height:32px" src='http://bit.ly/2vfZsJS'/><%end%></h1>
+<h3><%=@listing.city%></h3>
 <h3><%=@listing.description%></h3>
 <h3>$<%=@listing.price%></h3>
 <%for i in 0..@listing.gallery.length - 1%>

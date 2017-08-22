@@ -19,6 +19,31 @@ class Listing < ApplicationRecord
         return @listing
       end
 
+      def self.city_search(search)
+        @listing = Listing.where('city ILIKE ?', '%' + search + '%')
+        if @listing.nil?
+          flash[:notice] = "Sorry, no listings could be found"
+        else
+          return @listing
+        end
+      end
+
+      def self.search_dates(date_uno, date_dos)
+        @counter = Array.new
+        @booking = Booking.all.each do |b|
+          if (Date.strptime(b.start_date, '%m/%d/%Y')..Date.strptime(b.end_date, '%m/%d/%Y')).include?(Date.strptime(date_uno, '%Y-%m-%d')) || (Date.strptime(b.start_date, '%m/%d/%Y')..Date.strptime(b.end_date, '%m/%d/%Y')).include?(Date.strptime(date_dos, '%Y-%m-%d'))
+          else
+            @counter << b.listing_id
+          end
+        end
+        @listing = Listing.where(id: @counter)
+        if @listing.nil?
+          flash[:notice] = "Sorry, no listings could be found"
+        else
+          return @listing
+        end
+      end
+
       def tag_array
         @array = Array.new
         @read = ListingTag.where(listing_id: self.id)
@@ -55,4 +80,5 @@ class Listing < ApplicationRecord
         text.gsub!(/\s+/,"")
         text = text.split(",")
       end
+
 end

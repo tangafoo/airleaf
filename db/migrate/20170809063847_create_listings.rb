@@ -4,6 +4,7 @@ class CreateListings < ActiveRecord::Migration[5.1]
       t.string :title
       t.text :description
       t.integer :price
+      t.text :city
       t.string :listing_picture
       t.json :gallery
       t.boolean :verification, default: false

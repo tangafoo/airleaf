@@ -1,6 +1,11 @@
-<%=form_for @tag_edit, url:  do |f|%>
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<%=form_for @tag_edit, url: update_extra_tag_path(@listing.id, @tag_edit.id) do |f|%>
 <p><%=f.label :tag%></p>
 <p><%=f.text_field :tag%></p>
 
 <p><%=f.submit%></p>
 <%end%>
+
+<%=link_to 'Back', extra_tag_path(@listing.id)%>

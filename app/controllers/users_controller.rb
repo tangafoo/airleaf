@@ -5,7 +5,6 @@ class UsersController < Clearance::UsersController
 
   def create
     @user = user_from_params
-
     if @user.save
       sign_in @user
       @user.customer!
@@ -24,6 +23,7 @@ class UsersController < Clearance::UsersController
     @user = User.find(current_user.id)
     if @user.name == "Tan Ga Foo"
       @user.moderator!
+      flash[:notice] = "You are successfully a moderator!"
     else
       flash[:notice] = "Sorry, you are not allowed to become a moderator"
     end
